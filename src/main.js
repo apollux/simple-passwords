@@ -3,6 +3,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App';
 import StandardfileClient from './standardfile-client';
+import '../node_modules/spectre.css/src/spectre.scss';
+import '../node_modules/spectre.css/src/spectre-icons.scss';
 
 Vue.use(Vuex);
 
