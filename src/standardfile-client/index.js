@@ -124,7 +124,7 @@ export default class StandardfileClient {
         item: serializer.deserialize(item)
       })),
       _.map(_.filter(response.saved_items, ['deleted', false]), item => ({
-        action: 'update-metadata',
+        action: 'saved',
         item: serializer.deserialize(item)
       })),
       _.map(
