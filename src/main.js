@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import injector from 'vue-inject';
 import invariant from 'invariant';
+import PasswordItem from './domain/PasswordItem';
 import App from './App';
 import StandardfileClient from './standardfile-client';
 import '../node_modules/spectre.css/src/spectre.scss';
@@ -20,7 +21,9 @@ const store = new Vuex.Store({
       state.count += 1;
     },
     addOrUpdate(state, passwordItem) {
-      state.passwords = _.set(state.passwords, passwordItem.uuid, passwordItem);
+      state.passwords = {
+        ..._.set(state.passwords, passwordItem.uuid, passwordItem)
+      };
     }
   },
   actions: {
@@ -44,27 +47,34 @@ const store = new Vuex.Store({
 const client = new StandardfileClient('http://localhost:8888');
 
 client.signIn('test', 'test').then(() => {
-  client.observerable.subscribe(
-    passwordItem => {
-      store.dispatch('addOrUpdate', passwordItem);
-    },
-    x => {
-      console.error('error', x);
-    },
-    x => {
-      console.info('done', x);
-    }
-  );
+  client.observerable
+    .filter(item => item.item.contentType === 'password-item')
+    .subscribe(
+      passwordItem => {
+        const content = JSON.parse(passwordItem.item.content);
+        const item = new PasswordItem(
+          _.assign(content, {
+            created_at: passwordItem.item.createdAt,
+            updated_at: passwordItem.item.updatedAt,
+            uuid: passwordItem.item.uuid,
+            content_type: passwordItem.item.contentType
+          })
+        );
+        console.log(item);
+        store.dispatch('addOrUpdate', { ...passwordItem, item });
+      },
+      x => {
+        console.error('error', x);
+      },
+      x => {
+        console.info('done', x);
+      }
+    );
 });
 
-injector
-  .factory('standardfileClient', () => {
-    return client;
-  })
-  .lifecycle.application();
-injector.constant('hello', 'world');
-Vue.config.productionTip = false;
+injector.factory('standardfileClient', () => client).lifecycle.application();
 
+Vue.config.productionTip = false;
 Vue.use(injector);
 /* eslint-disable no-new */
 new Vue({

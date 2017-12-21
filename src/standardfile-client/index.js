@@ -72,7 +72,6 @@ export default class StandardfileClient {
   }
 
   async _sync(itemToSync) {
-    console.log(itemToSync);
     let serializedItem = null;
     if (!_.isNil(itemToSync)) {
       const serializer = new ItemSerializer(
@@ -84,11 +83,12 @@ export default class StandardfileClient {
 
     const response = await this._http.post('/items/sync', {
       items: [serializedItem],
-      sync_token: this._syncToken,
-      limit: 10
+      sync_token: this._syncToken
+      // limit: 10
+      // TODO implement scrolltoken
     });
 
-    this._syncToken = response.retrieved_items.sync_token;
+    this._syncToken = response.sync_token;
 
     return this._flattenSyncedItems(response);
   }

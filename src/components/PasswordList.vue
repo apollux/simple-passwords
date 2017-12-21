@@ -1,8 +1,25 @@
 <template>
-  <div class="hello">
-    <h1>Passwords {{ test }}</h1>
-    <strong>{{ count }}</strong>
-    <button class="btn" v-on:click="increment">click me</button>
+  <div class="password-container">
+    <div class="accordion" v-for="(password, index) in passwords" :key="password.uuid">
+      <input type="checkbox" :id="'password-arcordion-' + index" name="accordion-checkbox" hidden>
+      <label class="accordion-header c-hand" :for="'password-arcordion-' + index">
+        <i class="icon icon-arrow-right mr-1"></i>
+        {{password.name}}
+      </label>
+      <div class="accordion-body">
+        <ul>
+          <li v-if="password.username">
+            {{password.username}}
+          </li>
+          <li>
+            {{'*'.repeat(password.password.length)}}
+          </li>
+          <li v-if="password.url">
+            <a :href="password.url">{{password.url}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,12 +29,11 @@ import { mapState, mapActions } from 'vuex';
 export default {
   name: 'PasswordList',
   data() {
-    return {
-      test: 'pwdlist'
-    };
+    return {};
   },
   computed: mapState({
-    count: 'count'
+    count: 'count',
+    passwords: 'passwords'
   }),
   methods: {
     ...mapActions(['increment'])

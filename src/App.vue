@@ -5,49 +5,29 @@
       <div class="column col-8 col-mx-auto">
         <div class="has-icon-right">
           <input type="text" class="form-input" placeholder="Search">
-            <i class="form-icon icon icon-search"></i>
+          <i class="form-icon icon icon-search"></i>
         </div>
+      </div>
+      <div class="column col-8 col-mx-auto">
+        <header class="navbar">
+          <section class="navbar-section">
+            <button class="btn" v-on:click="openNewPasswordForm"><i class="icon icon-plus"></i></button>
+          </section>
+        </header>
         <div class="column col-6">
           <PasswordList />
-          <form>
-            <div class="form-group">
-              <label class="form-label" for="new-password-name">Name</label>
-              <input class="form-input"
-                id="new-password-name"
-                type="text" 
-                v-model="name"
-                placeholder="Name" 
-                v-on:keyup.enter="submit">
-
-              <label class="form-label" for="new-password-username">Username</label>
-              <input class="form-input"
-                id="new-password-username"
-                type="text" 
-                v-model="username"
-                placeholder="Username" 
-                v-on:keyup.enter="submit">
-              
-              <label class="form-label" for="new-password-password">Password</label>
-              <input class="form-input"
-                id="new-password-username"
-                type="password" 
-                v-model="password"
-                placeholder="Password" 
-                v-on:keyup.enter="submit">
-
-              <label class="form-label" for="new-password-url">Site</label>
-              <input class="form-input"
-                id="new-password-url"
-                type="url" 
-                v-model="url"
-                placeholder="http://" 
-                v-on:keyup.enter="submit">
-            </div>
-            <div class="input-group">
-              <button class="btn btn-primary input-group-btn" v-on:click="save">Save</button>
-              <button class="btn input-group-btn">Cancel</button>
-            </div>
-          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal" v-bind:class="{ active: showNewPasswordForm }">
+      <a v-on:click="closeNewPasswordForm" class="modal-overlay" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a v-on:click="closeNewPasswordForm" class="btn btn-clear float-right" aria-label="Close"></a>
+          <div class="modal-title h5">Modal title</div>
+        </div>
+        <div class="modal-body">
+          <PasswordForm v-on:closeMe="closeNewPasswordForm"/>
         </div>
       </div>
     </div>
@@ -55,24 +35,32 @@
 </template>
 
 <script>
-import { Item } from './standardfile-client/item';
 import PasswordList from './components/PasswordList';
+import PasswordForm from './components/PasswordForm';
+
 export default {
   name: 'app',
   components: {
-    PasswordList
+    PasswordList,
+    PasswordForm
   },
   data() {
-    return { name: '', username: '', password: '', url: '' };
+    return {
+      name: '',
+      username: '',
+      password: '',
+      url: '',
+      showNewPasswordForm: false
+    };
   },
   methods: {
-    save: function() {
-      const item = new Item();
-      item.content = this.passwordName;
-      this.standardfileClient.sync(item);
+    openNewPasswordForm() {
+      this.showNewPasswordForm = true;
+    },
+    closeNewPasswordForm() {
+      this.showNewPasswordForm = false;
     }
-  },
-  dependencies: ['standardfileClient', 'hello']
+  }
 };
 </script>
 
