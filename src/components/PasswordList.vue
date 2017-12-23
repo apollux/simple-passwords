@@ -7,6 +7,7 @@
         {{password.name}}
       </label>
       <div class="accordion-body">
+        <i class="icon icon-delete" v-on:click="deletePasswordItem(password.uuid)"></i>
         <ul>
           <li v-if="password.username">
             {{password.username}}
@@ -28,6 +29,7 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'PasswordList',
+  dependencies: ['standardfileClient'],
   data() {
     return {};
   },
@@ -36,7 +38,12 @@ export default {
     passwords: 'passwords'
   }),
   methods: {
-    ...mapActions(['increment'])
+    deletePasswordItem(uuid) {
+      const toDelete = this.$store.getters.getPasswordItemByUuid(uuid);
+      const serialized = toDelete.toStandardItem();
+      serialized.deleted = true;
+      this.standardfileClient.sync(serialized);
+    }
   }
 };
 </script>

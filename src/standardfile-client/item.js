@@ -5,9 +5,9 @@ import { encryptString, decryptString, generateItemKeys } from './encryption';
 export class Item {
   constructor(data = {}) {
     this.uuid = data.uuid || uuidv4();
-    this.contentType = data.content_type || null;
-    this.createdAt = data.created_at || new Date();
-    this.updatedAt = data.updated_at || null;
+    this.content_type = data.content_type || null;
+    this.created_at = data.created_at || new Date();
+    this.updated_at = data.updated_at || null;
     this.content = data.content || null;
     // this.encryptedItemKey = null;
   }
@@ -28,10 +28,10 @@ export class ItemSerializer {
     return {
       uuid: item.uuid,
       content: encryptedContent,
-      content_type: item.contentType,
+      content_type: item.content_type,
       enc_item_key: encryptedItemKey,
-      deleted: false,
-      created_at: item.createdAt
+      deleted: item.deleted,
+      created_at: item.created_at
     };
   }
 

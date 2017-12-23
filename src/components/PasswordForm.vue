@@ -55,26 +55,19 @@ export default {
     cancel() {},
     save() {
       try {
-        const pw = new PasswordItem({
+        const passwordItem = new PasswordItem({
           name: this.name,
           username: this.username,
           password: this.password,
           url: this.url
         });
 
-        const content = JSON.stringify(_.omit(pw, _.keys(new Item())));
-        console.log(content);
+        const itemToSync = passwordItem.toStandardItem();
 
-        const itemToSync = new Item({
-          uuid: pw.uuid,
-          created_at: pw.createdAt,
-          content_type: pw.contentType,
-          content
-        });
         this.standardfileClient.sync(itemToSync);
         this.done();
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     },
     done() {

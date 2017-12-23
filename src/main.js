@@ -2,7 +2,6 @@ import _ from 'lodash';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import injector from 'vue-inject';
-import invariant from 'invariant';
 import PasswordItem from './domain/PasswordItem';
 import App from './App';
 import StandardfileClient from './standardfile-client';
@@ -11,10 +10,15 @@ import '../node_modules/spectre.css/src/spectre-icons.scss';
 
 Vue.use(Vuex);
 
+const client = new StandardfileClient('http://localhost:8888');
+
 const store = new Vuex.Store({
   state: {
     count: 0,
     passwords: {}
+  },
+  getters: {
+    getPasswordItemByUuid: state => uuid => _.get(state.passwords, uuid)
   },
   mutations: {
     increment(state) {
@@ -24,6 +28,9 @@ const store = new Vuex.Store({
       state.passwords = {
         ..._.set(state.passwords, passwordItem.uuid, passwordItem)
       };
+    },
+    deletePasswordItemByUuid(state, uuid) {
+      state.passwords = _.omit(state.passwords, uuid);
     }
   },
   actions: {
@@ -31,37 +38,39 @@ const store = new Vuex.Store({
       context.commit('increment');
     },
     addOrUpdate(context, payLoad) {
-      invariant(
-        _.includes(['add-or-update', 'saved'], payLoad.action),
-        `unexpected action: ${payLoad.action}`
-      );
-      if (payLoad.action === 'add-or-update') {
-        context.commit('addOrUpdate', payLoad.item);
-      } else if (payLoad.action === 'saved') {
-        context.commit('addOrUpdate', payLoad.item);
-      }
+      context.commit('addOrUpdate', payLoad);
+    },
+    saved(context, payLoad) {
+      context.commit('addOrUpdate', payLoad);
+    },
+    delete(context, payLoad) {
+      context.commit('deletePasswordItemByUuid', payLoad.uuid);
     }
   }
 });
 
-const client = new StandardfileClient('http://localhost:8888');
-
 client.signIn('test', 'test').then(() => {
   client.observerable
-    .filter(item => item.item.contentType === 'password-item')
+    // .filter(item => item.item.content_type === 'password-item')
     .subscribe(
       passwordItem => {
+        if (
+          passwordItem.item.content_type !== 'password-item' ||
+          (!passwordItem.item.content && !passwordItem.item.deleted)
+        ) {
+          return;
+        }
         const content = JSON.parse(passwordItem.item.content);
         const item = new PasswordItem(
           _.assign(content, {
-            created_at: passwordItem.item.createdAt,
-            updated_at: passwordItem.item.updatedAt,
+            created_at: passwordItem.item.created_at,
+            updated_at: passwordItem.item.updated_at,
             uuid: passwordItem.item.uuid,
-            content_type: passwordItem.item.contentType
+            content_type: passwordItem.item.content_type
           })
         );
         console.log(item);
-        store.dispatch('addOrUpdate', { ...passwordItem, item });
+        store.dispatch(_.camelCase(passwordItem.action), item);
       },
       x => {
         console.error('error', x);
