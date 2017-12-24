@@ -2024,6 +2024,16 @@ detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
 
+diceware-generator@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/diceware-generator/-/diceware-generator-3.0.1.tgz#e69e0a10dc5149ea85815f0b4ae29e2f80dde58a"
+  dependencies:
+    secure-random "^1.1.1"
+
+diceware-wordlist-en-eff@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/diceware-wordlist-en-eff/-/diceware-wordlist-en-eff-1.0.1.tgz#35a8971060fb66dd28ee599720ce8b14023ae59b"
+
 diff@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
@@ -6443,6 +6453,10 @@ scss-tokenizer@^0.2.3:
   dependencies:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
+
+secure-random@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/secure-random/-/secure-random-1.1.1.tgz#0880f2d8c5185f4bcb4684058c836b4ddb07145a"
 
 select-hose@^2.0.0:
   version "2.0.0"

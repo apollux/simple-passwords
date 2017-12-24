@@ -24,7 +24,7 @@
       <div class="modal-container">
         <div class="modal-header">
           <a v-on:click="closeNewPasswordForm" class="btn btn-clear float-right" aria-label="Close"></a>
-          <div class="modal-title h5">Modal title</div>
+          <div class="modal-title h5">New password</div>
         </div>
         <div class="modal-body">
           <PasswordForm v-on:closeMe="closeNewPasswordForm"/>

@@ -2,55 +2,61 @@
     <form>
     <div class="form-group">
         <label class="form-label" for="new-password-name">Name</label>
-        <input class="form-input"
-        id="new-password-name"
-        type="text" 
-        v-model="name"
-        placeholder="Name" 
-        v-on:keyup.enter="submit">
+        <input 
+          class="form-input"
+          id="new-password-name"
+          type="text" 
+          v-model="name"
+          placeholder="Name" 
+          v-on:keyup.enter="submit">
 
-        <label class="form-label" for="new-password-username">Username</label>
+        <label class="form-label" for="new-password-username">Username or e-mail</label>
         <input class="form-input"
-        id="new-password-username"
-        type="text" 
-        v-model="username"
-        placeholder="Username" 
-        v-on:keyup.enter="submit">
+          id="new-password-username"
+          type="text" 
+          v-model="username"
+          placeholder="Username" 
+          v-on:keyup.enter="submit">
         
-        <label class="form-label" for="new-password-password">Password</label>
-        <input class="form-input"
-        id="new-password-password"
-        type="password" 
-        v-model="password"
-        placeholder="Password" 
-        v-on:keyup.enter="submit">
+        <PasswordInput :password="password" :showPassword="showPassword" />
 
         <label class="form-label" for="new-password-url">Site</label>
         <input class="form-input"
-        id="new-password-url"
-        type="url" 
-        v-model="url"
-        placeholder="http://" 
-        v-on:keyup.enter="submit">
+          id="new-password-url"
+          type="url" 
+          v-model="url"
+          placeholder="http://" 
+          v-on:keyup.enter="submit">
     </div>
     <div class="input-group">
         <span class="btn btn-primary input-group-btn" v-on:click="save">Save</span>
-        <button class="btn input-group-btn" v-on:click="cancel">Cancel</button>
+        <span class="btn input-group-btn" v-on:click="cancel">Cancel</span>
     </div>
     </form>
 </template>
 
 <script>
+import dwGen from 'diceware-generator';
+import enEFF from 'diceware-wordlist-en-eff';
 import PasswordItem from '../domain/PasswordItem';
+import PasswordInput from './PasswordInput';
 
 export default {
   name: 'PasswordForm',
-  components: {},
+  components: { PasswordInput },
   data() {
-    return { name: '', username: '', password: '', url: '' };
+    return {
+      name: '',
+      username: '',
+      password: this.generatePassword(),
+      url: '',
+      showPassword: false
+    };
   },
   methods: {
-    cancel() {},
+    cancel() {
+      this.done();
+    },
     save() {
       try {
         const passwordItem = new PasswordItem({
@@ -71,9 +77,16 @@ export default {
     done() {
       this.name = '';
       this.username = '';
-      this.password = '';
+      this.password = this.generatePassword();
       this.url = '';
+      this.showPassword = false;
       this.$emit('closeMe');
+    },
+    generatePassword() {
+      return dwGen({
+        language: enEFF,
+        wordcount: 5
+      });
     }
   },
   dependencies: ['standardfileClient']
