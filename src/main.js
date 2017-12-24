@@ -2,12 +2,15 @@ import _ from 'lodash';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import injector from 'vue-inject';
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon';
 import PasswordItem from './domain/PasswordItem';
 import App from './App';
 import StandardfileClient from './standardfile-client';
 import '../node_modules/spectre.css/src/spectre.scss';
 import '../node_modules/spectre.css/src/spectre-icons.scss';
 
+Vue.component('icon', Icon);
 Vue.use(Vuex);
 
 const client = new StandardfileClient('http://localhost:8888');
@@ -69,7 +72,7 @@ client.signIn('test', 'test').then(() => {
             content_type: passwordItem.item.content_type
           })
         );
-        console.log(item);
+
         store.dispatch(_.camelCase(passwordItem.action), item);
       },
       x => {

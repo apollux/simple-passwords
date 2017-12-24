@@ -41,8 +41,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
-import { Item } from '../standardfile-client/item';
 import PasswordItem from '../domain/PasswordItem';
 
 export default {

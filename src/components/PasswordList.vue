@@ -7,13 +7,13 @@
         {{password.name}}
       </label>
       <div class="accordion-body">
-        <i class="icon icon-delete" v-on:click="deletePasswordItem(password.uuid)"></i>
+        <i class="icon icon-delete c-hand" v-on:click="deletePasswordItem(password.uuid)"></i>
         <ul>
           <li v-if="password.username">
             {{password.username}}
           </li>
           <li>
-            {{'*'.repeat(password.password.length)}}
+            <PasswordDisplay :password="password.password" />
           </li>
           <li v-if="password.url">
             <a :href="password.url">{{password.url}}</a>
@@ -26,9 +26,11 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import PasswordDisplay from './PasswordDisplay';
 
 export default {
   name: 'PasswordList',
+  components: { PasswordDisplay },
   dependencies: ['standardfileClient'],
   data() {
     return {};
