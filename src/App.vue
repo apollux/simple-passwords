@@ -1,25 +1,49 @@
 <template>
   <div id="app" class="container">
     <div class="columns">
-      <div class="column col-8 col-mx-auto"><h1>Simple Passwords</h1></div>
-      <div class="column col-8 col-mx-auto">
-        <div class="has-icon-right">
-          <input type="text" class="form-input" placeholder="Search">
-          <i class="form-icon icon icon-search"></i>
-        </div>
-      </div>
-      <div class="column col-8 col-mx-auto">
-        <header class="navbar">
-          <section class="navbar-section">
-            <button class="btn" v-on:click="openNewPasswordForm"><i class="icon icon-plus"></i></button>
-          </section>
-        </header>
-        <div class="column col-6">
-          <PasswordList />
+      <!-- Center content -->
+      <div class="column col-6 col-mx-auto">
+        <div class="columns">
+          <div class="column col-12"><h1>Simple Passwords</h1></div>
+
+          <div class="column col-7" v-if="!isLoggedIn">
+            <LoginOrRegister v-on:loggedIn="onLogin" />
+          </div>
+
+          <div class="column col-12" v-if="isLoggedIn">
+            <div class="has-icon-right">
+              <input type="text" class="form-input" placeholder="Search">
+              <i class="form-icon icon icon-search"></i>
+            </div>
+          </div>
+          <div class="column col-12" v-if="isLoggedIn">
+            <header class="navbar">
+              <section class="navbar-section">
+                <button 
+                  type="button" 
+                  class="btn tooltip" 
+                  data-tooltip="New password" 
+                  v-on:click="openNewPasswordForm">
+                  <i class="icon icon-plus"></i>
+                </button>
+                <button 
+                  type="button" 
+                  class="btn tooltip" 
+                  data-tooltip="Logout" 
+                  v-on:click="logout">
+                  <i class="icon icon-shutdown"></i>
+                </button>
+              </section>
+            </header>
+            <div class="column col-6">
+              <PasswordList />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="modal" v-bind:class="{ active: showNewPasswordForm }">
+
+    <div class="modal" v-bind:class="{ active: showNewPasswordForm }" v-if="!isLoggedIn">
       <a v-on:click="closeNewPasswordForm" class="modal-overlay" aria-label="Close"></a>
       <div class="modal-container">
         <div class="modal-header">
@@ -35,12 +59,14 @@
 </template>
 
 <script>
+import LoginOrRegister from './components/LoginOrRegister';
 import PasswordList from './components/PasswordList';
 import PasswordForm from './components/PasswordForm';
 
 export default {
   name: 'app',
   components: {
+    LoginOrRegister,
     PasswordList,
     PasswordForm
   },
@@ -50,7 +76,8 @@ export default {
       username: '',
       password: '',
       url: '',
-      showNewPasswordForm: false
+      showNewPasswordForm: false,
+      isLoggedIn: false
     };
   },
   methods: {
@@ -59,6 +86,12 @@ export default {
     },
     closeNewPasswordForm() {
       this.showNewPasswordForm = false;
+    },
+    onLogin() {
+      this.isLoggedIn = true;
+    },
+    logout() {
+      this.isLoggedIn = false;
     }
   }
 };

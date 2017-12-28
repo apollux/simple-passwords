@@ -52,37 +52,35 @@ const store = new Vuex.Store({
   }
 });
 
-client.signIn('test', 'test').then(() => {
-  client.observerable
-    // .filter(item => item.item.content_type === 'password-item')
-    .subscribe(
-      passwordItem => {
-        if (
-          passwordItem.item.content_type !== 'password-item' ||
-          (!passwordItem.item.content && !passwordItem.item.deleted)
-        ) {
-          return;
-        }
-        const content = JSON.parse(passwordItem.item.content);
-        const item = new PasswordItem(
-          _.assign(content, {
-            created_at: passwordItem.item.created_at,
-            updated_at: passwordItem.item.updated_at,
-            uuid: passwordItem.item.uuid,
-            content_type: passwordItem.item.content_type
-          })
-        );
-
-        store.dispatch(_.camelCase(passwordItem.action), item);
-      },
-      x => {
-        console.error('error', x);
-      },
-      x => {
-        console.info('done', x);
+client.observerable
+  // .filter(item => item.item.content_type === 'password-item')
+  .subscribe(
+    passwordItem => {
+      if (
+        passwordItem.item.content_type !== 'password-item' ||
+        (!passwordItem.item.content && !passwordItem.item.deleted)
+      ) {
+        return;
       }
-    );
-});
+      const content = JSON.parse(passwordItem.item.content);
+      const item = new PasswordItem(
+        _.assign(content, {
+          created_at: passwordItem.item.created_at,
+          updated_at: passwordItem.item.updated_at,
+          uuid: passwordItem.item.uuid,
+          content_type: passwordItem.item.content_type
+        })
+      );
+
+      store.dispatch(_.camelCase(passwordItem.action), item);
+    },
+    x => {
+      console.error('error', x);
+    },
+    x => {
+      console.info('done', x);
+    }
+  );
 
 injector.factory('standardfileClient', () => client).lifecycle.application();
 

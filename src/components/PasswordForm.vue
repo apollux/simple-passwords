@@ -5,7 +5,7 @@
         <input 
           class="form-input"
           id="new-password-name"
-          type="text" 
+          type="text"
           v-model="name"
           placeholder="Name" 
           v-on:keyup.enter="submit">
@@ -36,8 +36,7 @@
 </template>
 
 <script>
-import dwGen from 'diceware-generator';
-import enEFF from 'diceware-wordlist-en-eff';
+import generatePassword from '../domain/generate-password';
 import PasswordItem from '../domain/PasswordItem';
 import PasswordInput from './PasswordInput';
 
@@ -48,7 +47,7 @@ export default {
     return {
       name: '',
       username: '',
-      password: this.generatePassword(),
+      password: generatePassword(),
       url: '',
       showPassword: false
     };
@@ -77,16 +76,10 @@ export default {
     done() {
       this.name = '';
       this.username = '';
-      this.password = this.generatePassword();
+      this.password = generatePassword();
       this.url = '';
       this.showPassword = false;
       this.$emit('closeMe');
-    },
-    generatePassword() {
-      return dwGen({
-        language: enEFF,
-        wordcount: 5
-      });
     }
   },
   dependencies: ['standardfileClient']

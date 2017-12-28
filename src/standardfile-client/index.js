@@ -21,8 +21,8 @@ export default class StandardfileClient {
       this._observer = observer;
     });
 
-    const triggerStream = Rx.Observable.of(null);
-    this.observerable = Rx.Observable.merge(triggerStream, saveItemsStream)
+    // const triggerStream = Rx.Observable.of(null);
+    this.observerable = Rx.Observable.merge(saveItemsStream)
       .flatMap(itemsToSync =>
         Rx.Observable.defer(() => this._sync(itemsToSync))
       )
@@ -64,6 +64,10 @@ export default class StandardfileClient {
 
     this._http.token = response.token;
     return response.token;
+  }
+
+  async logout() {
+    this._http.token = null;
   }
 
   sync(itemToSync) {
