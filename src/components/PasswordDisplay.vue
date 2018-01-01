@@ -1,9 +1,9 @@
 <template>
-    <span>
-        <span v-if="showPassword">{{password}} <i v-on:click="toggleView" class="c-hand"><icon name="eye-slash"></icon></i></span>
-        <span v-else>{{'*'.repeat(password.length)}} <i v-on:click="toggleView" class="c-hand"><icon name="eye"></icon></i></span>
-        <i v-on:click="toClipboard" class="c-hand"><icon name="clipboard"></icon></i>
-    </span>
+  <span>
+    <span v-if="showPassword">{{password}} <i v-on:click="toggleView" class="c-hand"><icon name="eye-slash"></icon></i></span>
+    <span v-else>{{'*'.repeat(password.length)}} <i v-on:click="toggleView" class="c-hand"><icon name="eye"></icon></i></span>
+    <i v-on:click="toClipboard" class="c-hand"><icon name="clipboard"></icon></i>
+  </span>
 </template>
 
 <script>

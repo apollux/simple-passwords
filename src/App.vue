@@ -21,21 +21,22 @@
               <section class="navbar-section">
                 <button 
                   type="button" 
-                  class="btn tooltip" 
+                  class="btn tooltip circle" 
                   data-tooltip="New password" 
                   v-on:click="openNewPasswordForm">
                   <i class="icon icon-plus"></i>
                 </button>
                 <button 
                   type="button" 
-                  class="btn tooltip" 
+                  class="btn tooltip circle" 
                   data-tooltip="Logout" 
                   v-on:click="logout">
                   <i class="icon icon-shutdown"></i>
                 </button>
               </section>
             </header>
-            <div class="column col-6">
+            <div class="column col-12">
+              <div class="divider"></div>
               <PasswordList />
             </div>
           </div>
@@ -43,7 +44,7 @@
       </div>
     </div>
 
-    <div class="modal" v-bind:class="{ active: showNewPasswordForm }" v-if="!isLoggedIn">
+    <div class="modal" v-bind:class="{ active: showNewPasswordForm }">
       <a v-on:click="closeNewPasswordForm" class="modal-overlay" aria-label="Close"></a>
       <div class="modal-container">
         <div class="modal-header">

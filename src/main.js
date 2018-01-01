@@ -17,16 +17,15 @@ const client = new StandardfileClient('http://localhost:8888');
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
-    passwords: {}
+    passwords: {},
+    selectedPasswordItemUuid: null
   },
   getters: {
-    getPasswordItemByUuid: state => uuid => _.get(state.passwords, uuid)
+    getPasswordItemByUuid: state => uuid => _.get(state.passwords, uuid),
+    getSelectedPasswordItem: state =>
+      _.get(state.passwords, state.selectedPasswordItemUuid)
   },
   mutations: {
-    increment(state) {
-      state.count += 1;
-    },
     addOrUpdate(state, passwordItem) {
       state.passwords = {
         ..._.set(state.passwords, passwordItem.uuid, passwordItem)
@@ -34,12 +33,12 @@ const store = new Vuex.Store({
     },
     deletePasswordItemByUuid(state, uuid) {
       state.passwords = _.omit(state.passwords, uuid);
+    },
+    selectPasswordItem(state, uuid) {
+      state.selectedPasswordItemUuid = uuid;
     }
   },
   actions: {
-    increment(context) {
-      context.commit('increment');
-    },
     addOrUpdate(context, payLoad) {
       context.commit('addOrUpdate', payLoad);
     },
@@ -48,6 +47,12 @@ const store = new Vuex.Store({
     },
     delete(context, payLoad) {
       context.commit('deletePasswordItemByUuid', payLoad.uuid);
+    },
+    selectPasswordItem(context, uuid) {
+      context.commit('selectPasswordItem', uuid);
+    },
+    clearSelectedPasswordItem(context) {
+      context.commit('selectPasswordItem', null);
     }
   }
 });

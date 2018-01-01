@@ -1,31 +1,45 @@
 <template>
-  <div class="password-container">
-    <div class="accordion" v-for="(password, index) in passwords" :key="password.uuid">
-      <input type="checkbox" :id="'password-arcordion-' + index" name="accordion-checkbox" hidden>
-      <label class="accordion-header c-hand" :for="'password-arcordion-' + index">
-        <i class="icon icon-arrow-right mr-1"></i>
+  <div>
+    <ul>
+      <li v-for="password in passwords" :key="password.uuid" 
+          v-on:click="selectPasswordItem(password.uuid)"
+          class="c-hand">
         {{password.name}}
-      </label>
-      <div class="accordion-body">
-        <i class="icon icon-delete c-hand" v-on:click="deletePasswordItem(password.uuid)"></i>
-        <ul>
-          <li v-if="password.username">
-            {{password.username}}
-          </li>
-          <li>
-            <PasswordDisplay :password="password.password" />
-          </li>
-          <li v-if="password.url">
-            <a :href="password.url">{{password.url}}</a>
-          </li>
-        </ul>
+      </li>
+    </ul>
+    <div v-if="selectedPasswordItem" class="modal" v-bind:class="{ active: selectedPasswordItem }" id="modal-id">
+      <a v-on:click="clearSelectedPasswordItem" class="modal-overlay" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a v-on:click="clearSelectedPasswordItem" class="btn btn-clear float-right" aria-label="Close"></a>
+          <div class="modal-title h5">{{selectedPasswordItem.name}}</div>
+        </div>
+        <div class="modal-body">
+          <dl>
+            <dt v-if="selectedPasswordItem.username">Username</dt>
+            <dd v-if="selectedPasswordItem.username">
+              {{selectedPasswordItem.username}}
+            </dd>
+            <dt>Password</dt>
+            <dd>
+              <PasswordDisplay :password="selectedPasswordItem.password" />
+            </dd>
+            <dt v-if="selectedPasswordItem.url">Site</dt>
+            <dd v-if="selectedPasswordItem.url">
+              <a :href="selectedPasswordItem.url">{{selectedPasswordItem.url}}</a>
+            </dd>
+          </dl>
+        </div>
+        <div class="modal-footer">
+          <i class="icon icon-delete c-hand" v-on:click="deletePasswordItem(selectedPasswordItem.uuid)"></i>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import PasswordDisplay from './PasswordDisplay';
 
 export default {
@@ -35,11 +49,14 @@ export default {
   data() {
     return {};
   },
-  computed: mapState({
-    count: 'count',
-    passwords: 'passwords'
-  }),
+  computed: {
+    ...mapState({
+      passwords: 'passwords'
+    }),
+    ...mapGetters({ selectedPasswordItem: 'getSelectedPasswordItem' })
+  },
   methods: {
+    ...mapActions(['selectPasswordItem', 'clearSelectedPasswordItem']),
     deletePasswordItem(uuid) {
       const toDelete = this.$store.getters.getPasswordItemByUuid(uuid);
       const serialized = toDelete.toStandardItem();
