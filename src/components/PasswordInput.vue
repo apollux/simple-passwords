@@ -11,7 +11,7 @@
           v-on:keyup.enter="submit">
       <button
         type="button"
-        class="btn circle tooltip"
+        class="btn btn-sm circle tooltip"
         :data-tooltip="showPassword ? 'Hide password' : 'Show password'"
         v-on:click="toggleView">
         <icon :name="showPassword ? 'eye-slash' : 'eye'" class="icon"></icon>

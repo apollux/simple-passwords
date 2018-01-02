@@ -4,7 +4,7 @@
       <button
         type="button"
         v-on:click="toggleView"
-        class="btn circle tooltip"
+        class="btn btn-sm circle tooltip"
         data-tooltip="Hide password">
         <icon class="icon" name="eye-slash"></icon>
       </button>
@@ -12,7 +12,7 @@
     <span v-else>{{'*'.repeat(password.length)}}
       <button
         type="button"
-        class="btn circle tooltip"
+        class="btn btn-sm circle tooltip"
         v-on:click="toggleView"
         data-tooltip="Show password">
         <icon class="icon" name="eye"></icon>
@@ -21,7 +21,7 @@
     <button
       type="button"
       v-on:click="toClipboard"
-      class="btn circle tooltip"
+      class="btn btn-sm circle tooltip"
       data-tooltip="Copy to clipboard">
       <icon class="icon" name="clipboard"></icon>
     </button>

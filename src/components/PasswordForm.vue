@@ -1,7 +1,7 @@
 <template>
   <form>
     <div class="columns">
-      <div class="column col-11 col-mx-auto">
+      <div class="column col-10 col-mx-auto">
         <div class="form-group">
           <label class="form-label" for="new-password-name">Name</label>
           <input

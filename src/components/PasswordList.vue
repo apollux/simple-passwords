@@ -33,7 +33,7 @@
         <div class="modal-footer">
           <button
             type="button"
-            class="btn circle tooltip"
+            class="btn btn-sm circle tooltip"
             data-tooltip="Delete"
             v-on:click="deletePasswordItem(selectedPasswordItem.uuid)">
             <i class="icon icon-delete"></i>
