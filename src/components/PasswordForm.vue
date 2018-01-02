@@ -20,7 +20,7 @@
             placeholder="Username"
             v-on:keyup.enter="submit">
 
-          <PasswordInput :password="password" :showPassword="showPassword" />
+          <PasswordInput :password="password" :showPassword="showPassword" v-on:changed="onPasswordChanged" />
 
           <label class="form-label" for="new-password-url">Site</label>
           <input class="form-input"
@@ -61,6 +61,9 @@ export default {
     };
   },
   methods: {
+    onPasswordChanged(input) {
+      this.password = input;
+    },
     cancel() {
       this.done();
     },
