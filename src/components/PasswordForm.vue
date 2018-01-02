@@ -1,39 +1,43 @@
 <template>
   <form>
-    <div class="form-group">
-        <label class="form-label" for="new-password-name">Name</label>
-        <input 
-          class="form-input"
-          id="new-password-name"
-          type="text"
-          v-model="name"
-          placeholder="Name" 
-          v-on:keyup.enter="submit">
+    <div class="columns">
+      <div class="column col-11 col-mx-auto">
+        <div class="form-group">
+          <label class="form-label" for="new-password-name">Name</label>
+          <input
+            class="form-input"
+            id="new-password-name"
+            type="text"
+            v-model="name"
+            placeholder="Name"
+            v-on:keyup.enter="submit">
 
-        <label class="form-label" for="new-password-username">Username or e-mail</label>
-        <input class="form-input"
-          id="new-password-username"
-          type="text" 
-          v-model="username"
-          placeholder="Username" 
-          v-on:keyup.enter="submit">
-        
-        <PasswordInput :password="password" :showPassword="showPassword" />
+          <label class="form-label" for="new-password-username">Username or e-mail</label>
+          <input class="form-input"
+            id="new-password-username"
+            type="text"
+            v-model="username"
+            placeholder="Username"
+            v-on:keyup.enter="submit">
 
-        <label class="form-label" for="new-password-url">Site</label>
-        <input class="form-input"
-          id="new-password-url"
-          type="url" 
-          v-model="url"
-          placeholder="http://" 
-          v-on:keyup.enter="submit">
-    </div>
-    <div class="input-group">
-        <LoadingButton 
-          class="btn-primary input-group-btn" 
-          :content="'Save'" 
-          :action="save" />
-        <button type="button" class="btn input-group-btn" v-on:click="cancel">Cancel</button>
+          <PasswordInput :password="password" :showPassword="showPassword" />
+
+          <label class="form-label" for="new-password-url">Site</label>
+          <input class="form-input"
+            id="new-password-url"
+            type="url"
+            v-model="url"
+            placeholder="http://"
+            v-on:keyup.enter="submit">
+        </div>
+        <div class="input-group">
+          <LoadingButton
+            class="btn-primary input-group-btn"
+            :content="'Save'"
+            :action="save" />
+          <button type="button" class="btn input-group-btn" v-on:click="cancel">Cancel</button>
+        </div>
+      </div>
     </div>
   </form>
 </template>

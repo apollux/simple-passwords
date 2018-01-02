@@ -2,14 +2,20 @@
   <div>
     <label class="form-label" for="new-password-password">Password</label>
     <div class="input-group">
-        <input
-            class="form-input"
-            id="new-password-password"
-            :type="showPassword ? 'text' : 'password'"
-            v-model="password"
-            placeholder="Password"
-            v-on:keyup.enter="submit">
-        <i v-on:click="toggleView" class="c-hand"><icon :name="showPassword ? 'eye-slash' : 'eye'"></icon></i>
+      <input
+          class="form-input"
+          id="new-password-password"
+          :type="showPassword ? 'text' : 'password'"
+          v-model="password"
+          placeholder="Password"
+          v-on:keyup.enter="submit">
+      <button
+        type="button"
+        class="btn circle tooltip"
+        :data-tooltip="showPassword ? 'Hide password' : 'Show password'"
+        v-on:click="toggleView">
+        <icon :name="showPassword ? 'eye-slash' : 'eye'" class="icon"></icon>
+      </button>
     </div>
   </div>
 </template>
