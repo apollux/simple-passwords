@@ -44,13 +44,6 @@ export default {
     },
     toClipboard() {
       copy(this.password);
-      window.setTimeout(() => {
-        try {
-          copy('cleared');
-        } catch (e) {
-          console.log(e);
-        }
-      }, 5000);
     }
   }
 };
