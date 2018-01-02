@@ -6,7 +6,7 @@
         <div class="columns">
           <div class="column col-12"><h1>Simple Passwords</h1></div>
 
-          <div class="column col-7" v-if="!isLoggedIn">
+          <div class="column col-12" v-if="!isLoggedIn">
             <LoginOrRegister v-on:loggedIn="onLogin" />
           </div>
 

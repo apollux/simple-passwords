@@ -1,5 +1,5 @@
 <template>
-    <form>
+  <form>
     <div class="form-group">
         <label class="form-label" for="new-password-name">Name</label>
         <input 
@@ -29,20 +29,24 @@
           v-on:keyup.enter="submit">
     </div>
     <div class="input-group">
-        <span class="btn btn-primary input-group-btn" v-on:click="save">Save</span>
-        <span class="btn input-group-btn" v-on:click="cancel">Cancel</span>
+        <LoadingButton 
+          class="btn-primary input-group-btn" 
+          :content="'Save'" 
+          :action="save" />
+        <button type="button" class="btn input-group-btn" v-on:click="cancel">Cancel</button>
     </div>
-    </form>
+  </form>
 </template>
 
 <script>
 import generatePassword from '../domain/generate-password';
 import PasswordItem from '../domain/PasswordItem';
 import PasswordInput from './PasswordInput';
+import LoadingButton from './LoadingButton';
 
 export default {
   name: 'PasswordForm',
-  components: { PasswordInput },
+  components: { PasswordInput, LoadingButton },
   data() {
     return {
       name: '',
@@ -67,6 +71,7 @@ export default {
 
         const itemToSync = passwordItem.toStandardItem();
 
+        // TODO in order to provide correct feedback this needs to be awaited somehow.
         this.standardfileClient.sync(itemToSync);
         this.done();
       } catch (e) {
