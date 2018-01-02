@@ -1,12 +1,19 @@
 <template>
   <div>
-    <ul>
-      <li v-for="password in passwords" :key="password.uuid" 
-          v-on:click="selectPasswordItem(password.uuid)"
-          class="c-hand">
-        {{password.name}}
-      </li>
-    </ul>
+    <p v-show="Object.keys(passwords).length === 0">You have not saved any passwords. 
+      Click the plus icon above to save your first password.</p>
+
+    <table class="table table-hover">
+      <tbody>
+        <tr
+          class="c-hand"
+          v-for="password in passwords" :key="password.uuid"
+          v-on:click="selectPasswordItem(password.uuid)">
+          <td>{{password.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+
     <div v-if="selectedPasswordItem" class="modal" v-bind:class="{ active: selectedPasswordItem }" id="modal-id">
       <a v-on:click="clearSelectedPasswordItem" class="modal-overlay" aria-label="Close"></a>
       <div class="modal-container">
@@ -26,7 +33,7 @@
             </dd>
             <dt v-if="selectedPasswordItem.url">Site</dt>
             <dd v-if="selectedPasswordItem.url">
-              <a :href="selectedPasswordItem.url">{{selectedPasswordItem.url}}</a>
+              <a :href="selectedPasswordItem.url" target="_blank">{{selectedPasswordItem.url}}</a>
             </dd>
           </dl>
         </div>
@@ -73,7 +80,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>
