@@ -48,7 +48,7 @@ export default class StandardfileClient {
       version: '002'
     });
 
-    this._http.token = response.user.token;
+    this._http.token = response.token;
     return response.user.token;
   }
 
