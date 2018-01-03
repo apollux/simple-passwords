@@ -20,8 +20,7 @@ export default {
       this.loading = true;
       try {
         await this.action();
-        this.loading = false;
-      } catch (e) {
+      } finally {
         this.loading = false;
       }
     }
