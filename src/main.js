@@ -13,7 +13,7 @@ import '../node_modules/spectre.css/src/spectre-icons.scss';
 Vue.component('icon', Icon);
 Vue.use(Vuex);
 
-const client = new StandardfileClient('http://localhost:8888');
+const client = new StandardfileClient('https://standardfile.andrekwakernaak.xyz');
 
 const store = new Vuex.Store({
   state: {
