@@ -1,53 +1,44 @@
 <template>
-  <div id="app" class="container">
+  <div id="app" class="container grid-lg">
     <div class="columns">
-      <!-- Center content -->
-      <div class="column col-6 col-mx-auto">
-        <div class="columns">
-          <div class="column col-12"><h1>Simple Passwords</h1></div>
-
-          <div class="column col-12" v-if="!isLoggedIn">
-            <LoginOrRegister v-on:loggedIn="onLogin" />
-          </div>
-
-          <div class="column col-1" v-if="isLoggedIn">
-            <header class="navbar">
-              <section class="navbar-section">
-                <button 
-                  type="button" 
-                  class="btn tooltip circle" 
-                  data-tooltip="New password" 
-                  v-on:click="openNewPasswordForm">
-                  <i class="icon icon-plus"></i>
-                </button>
-                <button 
-                  type="button" 
-                  class="btn tooltip circle ml-1" 
-                  data-tooltip="Logout" 
-                  v-on:click="logout">
-                  <i class="icon icon-shutdown"></i>
-                </button>
-              </section>
-            </header>
-          </div>
-          <div class="column col-7 col-mx-auto" v-if="isLoggedIn">
-            <div class="has-icon-right">
-              <input type="text" class="form-input" placeholder="Search">
-              <i class="form-icon icon icon-search"></i>
-            </div>
-          </div>
-          <div class="column col-2" v-if="isLoggedIn">
-            <SyncStatus />
-          </div>
-
-          <div class="column col-12" v-if="isLoggedIn">
-            
-            <div class="column col-12">
-              <div class="divider"></div>
-              <PasswordList />
-            </div>
-          </div>
+      <div class="column col-12"><h1>Simple Passwords</h1></div>
+      <div class="column col-12" v-if="!isLoggedIn">
+        <LoginOrRegister v-on:loggedIn="onLogin" />
+      </div>
+    </div>
+    <div class="columns" v-if="isLoggedIn">
+      <div class="column col-1">
+        <header class="navbar">
+          <section class="navbar-section">
+            <button
+              type="button"
+              class="btn tooltip circle"
+              data-tooltip="New password"
+              v-on:click="openNewPasswordForm">
+              <i class="icon icon-plus"></i>
+            </button>
+            <button
+              type="button"
+              class="btn tooltip circle ml-1"
+              data-tooltip="Logout"
+              v-on:click="logout">
+              <i class="icon icon-shutdown"></i>
+            </button>
+          </section>
+        </header>
+      </div>
+      <div class="column col-7 col-mx-auto">
+        <div class="has-icon-right">
+          <input type="text" class="form-input" placeholder="Search">
+          <i class="form-icon icon icon-search"></i>
         </div>
+      </div>
+      <div class="column col-2">
+        <SyncStatus />
+      </div>
+      <div class="column col-12">
+        <div class="divider"></div>
+          <PasswordList />
       </div>
     </div>
 
