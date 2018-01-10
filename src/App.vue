@@ -10,13 +10,7 @@
             <LoginOrRegister v-on:loggedIn="onLogin" />
           </div>
 
-          <div class="column col-12" v-if="isLoggedIn">
-            <div class="has-icon-right">
-              <input type="text" class="form-input" placeholder="Search">
-              <i class="form-icon icon icon-search"></i>
-            </div>
-          </div>
-          <div class="column col-12" v-if="isLoggedIn">
+          <div class="column col-1" v-if="isLoggedIn">
             <header class="navbar">
               <section class="navbar-section">
                 <button 
@@ -28,13 +22,26 @@
                 </button>
                 <button 
                   type="button" 
-                  class="btn tooltip circle" 
+                  class="btn tooltip circle ml-1" 
                   data-tooltip="Logout" 
                   v-on:click="logout">
                   <i class="icon icon-shutdown"></i>
                 </button>
               </section>
             </header>
+          </div>
+          <div class="column col-7 col-mx-auto" v-if="isLoggedIn">
+            <div class="has-icon-right">
+              <input type="text" class="form-input" placeholder="Search">
+              <i class="form-icon icon icon-search"></i>
+            </div>
+          </div>
+          <div class="column col-2" v-if="isLoggedIn">
+            <SyncStatus />
+          </div>
+
+          <div class="column col-12" v-if="isLoggedIn">
+            
             <div class="column col-12">
               <div class="divider"></div>
               <PasswordList />
@@ -63,13 +70,15 @@
 import LoginOrRegister from './components/LoginOrRegister';
 import PasswordList from './components/PasswordList';
 import PasswordForm from './components/PasswordForm';
+import SyncStatus from './components/SyncStatus';
 
 export default {
   name: 'app',
   components: {
     LoginOrRegister,
     PasswordList,
-    PasswordForm
+    PasswordForm,
+    SyncStatus
   },
   data() {
     return {

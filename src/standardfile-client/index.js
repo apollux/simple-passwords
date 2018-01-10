@@ -17,6 +17,10 @@ export default class StandardfileClient {
     this._http = injectables.http || new Http(apiUrl);
     this._observer = null;
 
+    this.syncStatusObserverable = Rx.Observable.create(observer => {
+      this._syncStatusObserver = observer;
+    });
+
     const saveItemsStream = Rx.Observable.create(observer => {
       this._observer = observer;
     });
@@ -24,7 +28,12 @@ export default class StandardfileClient {
     // const triggerStream = Rx.Observable.of(null);
     this.observerable = Rx.Observable.merge(saveItemsStream)
       .flatMap(itemsToSync =>
-        Rx.Observable.defer(() => this._sync(itemsToSync))
+        Rx.Observable.defer(async () => {
+          this._syncStatusObserver.next('syncing');
+          const result = await this._sync(itemsToSync);
+          this._syncStatusObserver.next('synced');
+          return result;
+        })
       )
       .concatMap(x => x);
   }

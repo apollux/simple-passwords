@@ -54,6 +54,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex';
 import PasswordDisplay from './PasswordDisplay';
+import SyncStatus from './SyncStatus';
 
 export default {
   name: 'PasswordList',

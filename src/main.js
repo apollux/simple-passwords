@@ -13,12 +13,15 @@ import '../node_modules/spectre.css/src/spectre-icons.scss';
 Vue.component('icon', Icon);
 Vue.use(Vuex);
 
-const client = new StandardfileClient('https://standardfile.andrekwakernaak.xyz');
+const client = new StandardfileClient(
+  'https://standardfile.andrekwakernaak.xyz/'
+);
 
 const store = new Vuex.Store({
   state: {
     passwords: {},
-    selectedPasswordItemUuid: null
+    selectedPasswordItemUuid: null,
+    syncStatus: ''
   },
   getters: {
     getPasswordItemByUuid: state => uuid => _.get(state.passwords, uuid),
@@ -36,6 +39,9 @@ const store = new Vuex.Store({
     },
     selectPasswordItem(state, uuid) {
       state.selectedPasswordItemUuid = uuid;
+    },
+    updateSyncStatus(state, status) {
+      state.syncStatus = status;
     }
   },
   actions: {
@@ -53,6 +59,9 @@ const store = new Vuex.Store({
     },
     clearSelectedPasswordItem(context) {
       context.commit('selectPasswordItem', null);
+    },
+    updateSyncStatus(context, status) {
+      context.commit('updateSyncStatus', status);
     }
   }
 });
@@ -86,6 +95,10 @@ client.observerable
       console.info('done', x);
     }
   );
+
+client.syncStatusObserverable.subscribe(newStatus =>
+  store.dispatch('updateSyncStatus', newStatus)
+);
 
 injector.factory('standardfileClient', () => client).lifecycle.application();
 
