@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-show="Object.keys(passwords).length === 0">You have not saved any passwords. 
+    <p v-show="Object.keys(passwords).length === 0">You have not saved any passwords.
       Click the plus icon above to save your first password.</p>
 
     <table class="table table-hover">

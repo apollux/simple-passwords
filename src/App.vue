@@ -54,6 +54,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -99,6 +100,7 @@ export default {
 </script>
 
 <style>
-#app {
+.notify span {
+  display: none;
 }
 </style>

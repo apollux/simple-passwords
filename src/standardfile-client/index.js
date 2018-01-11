@@ -45,7 +45,7 @@ export default class StandardfileClient {
   }
 
   async register(email, password) {
-    const nonce = generateRandomBits(128);
+    const nonce = await generateRandomBits(128);
     const salt = sha1(_.join([email, nonce], ':')).toString();
     const iterations = 5000;
     this._deriveKeys(password, salt, iterations);

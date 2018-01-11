@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import injector from 'vue-inject';
 import 'vue-awesome/icons';
+import Notify from 'vue2-notify';
 import Icon from 'vue-awesome/components/Icon';
 import PasswordItem from './domain/PasswordItem';
 import App from './App';
@@ -12,6 +13,19 @@ import '../node_modules/spectre.css/src/spectre-icons.scss';
 
 Vue.component('icon', Icon);
 Vue.use(Vuex);
+Vue.use(Notify, {
+  itemClass: 'toast',
+  closeButtonClass: 'btn btn-clear float-right',
+  visibility: 7000,
+  position: 'bottom-full'
+});
+const types = {
+  info: { itemClass: 'toast-primary' },
+  warning: { itemClass: 'toast-warning' },
+  error: { itemClass: 'toast-error' },
+  success: { itemClass: 'toast-success' }
+};
+Vue.$notify.setTypes(types);
 
 const client = new StandardfileClient(
   'https://standardfile.andrekwakernaak.xyz/'
