@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import injector from 'vue-inject';
 import 'vue-awesome/icons';
 import Notify from 'vue2-notify';
+import VeeValidate from 'vee-validate';
 import Icon from 'vue-awesome/components/Icon';
 import PasswordItem from './domain/PasswordItem';
 import App from './App';
@@ -13,6 +14,14 @@ import '../node_modules/spectre.css/src/spectre-icons.scss';
 
 Vue.component('icon', Icon);
 Vue.use(Vuex);
+Vue.use(VeeValidate, {
+  classes: true,
+  classNames: {
+    valid: 'is-success',
+    invalid: 'is-error'
+  },
+  delay: 1000
+});
 Vue.use(Notify, {
   itemClass: 'toast',
   closeButtonClass: 'btn btn-clear float-right',
